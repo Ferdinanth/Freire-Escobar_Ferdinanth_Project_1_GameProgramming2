@@ -16,18 +16,20 @@ public class Cameracontroller : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
-        playerPosition = new Vector3(Player.transform.position.x, Player.transform.position.y);
+        playerPosition = new Vector3(Player.transform.position.x, Player.transform.position.y,0f);
 
         if (Player.transform.localScale.x > 0f)
         {
-            playerPosition = new Vector3(playerPosition.x + offset, playerPosition.y, playerPosition.z);
+            playerPosition = new Vector3(playerPosition.x + offset, playerPosition.y, 0f);
         }
         else
         {
-            playerPosition = new Vector3(playerPosition.x - offset, playerPosition.y);
+            playerPosition = new Vector3(playerPosition.x - offset, playerPosition.y, 0f);
         }
-        transform.position =  Vector3.Lerp (transform.position, playerPosition, offsetSmoothing * Time.deltaTime);
+
+        playerPosition.z = transform.position.z;
+        transform.position =  Vector3.Lerp (transform.position, playerPosition, offsetSmoothing);
     }
 }

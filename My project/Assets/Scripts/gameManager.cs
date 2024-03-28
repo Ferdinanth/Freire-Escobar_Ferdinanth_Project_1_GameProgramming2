@@ -8,13 +8,11 @@ using UnityEngine.UIElements;
 public class gameManager : MonoBehaviour
 {
     [Header("Global Vars")]
-    public bool isBird;
     public GameObject myPlayer;
     public float timer;
     public float timerLimit;
     public int score;
     PlayerControllers myController;
-    birdController myBird;
 
     [Header("NPC vars")]
     public GameObject Collectible;
@@ -39,21 +37,14 @@ public class gameManager : MonoBehaviour
     {
         myGameState = GameState.GAMESTART;
         myPlayer.SetActive(false);
-        if (isBird) { myBird = myPlayer.GetComponent<birdController>(); }
-        else { myController = myPlayer.GetComponent<PlayerControllers>(); }
+        myController = myPlayer.GetComponent<PlayerControllers>();
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!isBird) 
-        { 
-            if (myController.myHealth < 0)
-            {
-                EnterFinale();
-            }
-        }
+
 
         switch (myGameState)
         {
@@ -83,7 +74,7 @@ public class gameManager : MonoBehaviour
                     spawnTimer = 0;
                     Debug.Log("spawnTimer: " + spawnTimer);
                     GameObject newObj = Instantiate(Collectible, targetPos, Quaternion.identity);
-                    if(!isBird) { newObj.GetComponent<enemyController>().myPlayer = myPlayer; }
+                    newObj.GetComponent<enemyController>().myPlayer = myPlayer;
                     
                 }
                 #endregion
@@ -108,7 +99,7 @@ public class gameManager : MonoBehaviour
         timer = 0f;
         spawnTimer = 0f;
         myGameState = GameState.PLAYING;
-        if (!isBird) { myController.myHealth = 1000; }
+        myController.myHealth = 1000;
         myPlayer.SetActive(true);
         TitleText.enabled = false;
 
